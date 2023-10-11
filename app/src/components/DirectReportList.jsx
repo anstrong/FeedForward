@@ -1,7 +1,6 @@
 import DirectReport from "./DirectReport";
 
-const reports = ["Jane Doe", "John Doe"]
-export default function DirectReportList() {
+export default function DirectReportList({ reports }) {
     return (<div>
         <h2>My Reports</h2>
         <ul>
