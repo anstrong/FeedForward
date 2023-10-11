@@ -1,11 +1,10 @@
 import Entry from "./Entry";
 
-const entries = ["you're a meanie", "thanks for lunch!"]
-export default function EntryList() {
+export default function EntryList({ entries }) {
     return (<div>
         <h2>My Feedback</h2>
         <ul>
-        {entries.map(entry => <Entry body={entry} />)}
+            {entries.map(entry => <Entry {...entry} />)}
     </ul></div>
     );
 };

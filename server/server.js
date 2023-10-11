@@ -1,18 +1,21 @@
 const express = require("express");
 const dao = require("./dao.js");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 
 const app = express();
 app.use(bodyParser.json());
-
+app.use(cors());
+app.use(express.json());
 
 function queryDAO(operation, req, res) {
     dao.call(operation, req, (result) => {
-      if (result.body && result.status != 404) {
-        console.log(result.body);
+      if (result.body && result.status < 400) {
         res.send(result.body);
+        res.sendStatus(result.status);
       } else {
-        res.sendStatus(404);
+        console.log(req.body)
+        res.sendStatus(result.status);
         res.end;
       }
     });
@@ -20,7 +23,6 @@ function queryDAO(operation, req, res) {
 
 
 app.post('/login', (req, res) => {
-    console.log("We found Post Login")
     queryDAO('authenticate', req, res);
 });
 
@@ -41,6 +43,11 @@ app.post("/send", (req, res) => {
 });
 
 
+<<<<<<< HEAD
 const port = 3000;
+=======
+
+const port = 8080;
+>>>>>>> 91b3b54e42c91e1d480163c516049e2f390cede9
 console.log("server starting on port " + port);
 app.listen(port);
