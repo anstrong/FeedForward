@@ -12,7 +12,6 @@ function queryDAO(operation, req, res) {
     dao.call(operation, req, (result) => {
       if (result.body && result.status < 400) {
         res.send(result.body);
-        res.sendStatus(result.status);
       } else {
         console.log(req.body)
         res.sendStatus(result.status);
@@ -43,11 +42,6 @@ app.post("/send", (req, res) => {
 });
 
 
-<<<<<<< HEAD
-const port = 3000;
-=======
-
 const port = 8080;
->>>>>>> 91b3b54e42c91e1d480163c516049e2f390cede9
 console.log("server starting on port " + port);
 app.listen(port);

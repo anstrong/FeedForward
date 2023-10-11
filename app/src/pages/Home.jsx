@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import DirectReportList from "../components/DirectReportList";
 import EntryList from "../components/EntryList";
@@ -26,35 +26,27 @@ const dummy_entries = [
 ];
 const dummy_reports = ["Jane Doe", "John Doe"];
 export default function Home({ user }) {
-    const [entries, setEntries] = useState(dummy_entries);
-    const [reports, setReports] = useState(dummy_reports);
+    const [entries, setEntries] = useState([]);
+    const [reports, setReports] = useState([]);
     const [toSubmit, setToSubmit] = useState("");
 
-    /*const submitEntry = useCallback((text) => {
-        console.log(text);
-        setEntry("");
-    });*/
-
     useEffect(() => {
-        console.log(toSubmit);
-
-        fetch('http://localhost:8080/send/', {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ body: toSubmit, sender: user, recipient: user, valence: 1 })
-        }).then(response => {
-            console.log(response);
-        }).catch(e => console.log(e));
-
-        return () => {
-            setToSubmit("");
+        console.log('rerendering');
+        function sendPost(body) {
+            console.log(body);
+            fetch('http://localhost:8080/send/', {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ body: body, sender: user, recipient: user, valence: 1 })
+            }).then(response => {
+                console.log(response);
+            }).then(response => {
+                setToSubmit("");
+            }).catch(e => console.log(e))
         }
-    }, [ user, toSubmit ]);
-
-    useEffect(() => {
         function sendQuery(path, callback = (result) => (console.log(result))){
             fetch(`http://localhost:8080/${path}`)
                 .then(response => {
@@ -65,9 +57,16 @@ export default function Home({ user }) {
                     callback(payload);
                 }).catch(e => console.log(e));
         }
-        sendQuery(`users/${user}/entries`, (result) => setEntries(result));
-        sendQuery(`users/${user}`, (result => setReports(result['direct_reports'])));
-    }, [ user ]);
+        if (toSubmit) {
+            sendPost(toSubmit)
+            return () => {
+                setToSubmit("");
+            }
+        } else {
+            sendQuery(`users/${user}/entries`, (result) => setEntries(result));
+            sendQuery(`users/${user}`, (result => setReports(result['direct_reports'])));
+        }
+    }, [ user, toSubmit ]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -77,7 +76,7 @@ export default function Home({ user }) {
     return (<>
         <h1>Home</h1>
         <h2>Hi, user {user}!</h2>
-        <EntryInput text={""} update={() => {}} submit={handleSubmit}/>
+        <EntryInput text={toSubmit} update={() => {}} submit={handleSubmit}/>
         <EntryList entries={entries}/>
         <DirectReportList  reports={reports}/>
     </>);
