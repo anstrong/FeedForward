@@ -25,8 +25,11 @@ def generate_user_data(fake):
 
 def generate_entry_data(fake):
     body = fake.text()
-    sender = fake.user_name()
-    recipient = fake.user_name()
+    sender = random.choice(users)["username"]
+    while True:
+        recipient = random.choice(users)["username"]
+        if recipient != sender: # sender and recipient should be different users
+            break
     valence = random.randint(1, 5) # adjust range as needed 
 
     return {
@@ -40,8 +43,10 @@ def generate_entry_data(fake):
 def generate_direct_reports(users):
     for user in users:
         if user["is_manager"]:
-            num_of_reports = random.randint(0, len(users) - 2) # there cannot be more direct reports than users
-            user["direct_reports"] = random.sample(users, num_of_reports)
+            num_of_reports = random.randint(1, len(users) - 2) # there cannot be more direct reports than users
+            direct_report_usernames = [u["username"] for u in random.sample(users, num_of_reports)]
+            user["direct_reports"] = direct_report_usernames
+            #user["direct_reports"] = random.sample(users, num_of_reports)
 
 
 # Inserting dummy users and entries data into the CSV file
@@ -89,38 +94,6 @@ if __name__ == "__main__": # checks if script is main entry point
     save_users_to_csv(users, "users_data.csv")
     save_entries_to_csv(entries, "entries_data.csv")
         
-
-
-
-
-    # num_of_records = 1 # change as needed
-    # csv_filename = "dummy_data.csv"
-    # save_to_csv(num_of_records, csv_filename)
-
-
-
-# def save_to_csv(num_of_records, csv_filename):
-#     fake = Faker()
-
-#     dummy_data = [] # list that holds the dummy data
-
-#     for _ in range(num_of_records):
-#         data = generate_dummy_data(fake)
-#         dummy_data.append(data)
-
-#     # write into CSV file
-#     with open(csv_filename, mode="w", newline="") as csv_file:
-#         fieldnames = list(dummy_data[0].keys())
-#         csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-
-#         csv_writer.writeheader()
-#         for data in dummy_data:
-#             csv_writer.writerow(data)
-
-
-
-
-
 
 
 # Inserting dummy data in MongoDB Atlas
