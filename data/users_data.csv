@@ -1,0 +1,6 @@
+username,password,is_manager,direct_reports
+stephanie88,yMEhNv4G,False,[]
+jhuffman,9xhBaFod,False,[]
+jamessmith,aVZX1Z8n,True,"[{'username': 'stephanie88', 'password': 'yMEhNv4G', 'is_manager': False, 'direct_reports': []}]"
+chelseaneal,QRiwTZRj,True,"[{'username': 'jhuffman', 'password': '9xhBaFod', 'is_manager': False, 'direct_reports': []}]"
+igolden,q4yO7ynh,True,"[{'username': 'chelseaneal', 'password': 'QRiwTZRj', 'is_manager': True, 'direct_reports': [{'username': 'jhuffman', 'password': '9xhBaFod', 'is_manager': False, 'direct_reports': []}]}, {'username': 'jamessmith', 'password': 'aVZX1Z8n', 'is_manager': True, 'direct_reports': [{'username': 'stephanie88', 'password': 'yMEhNv4G', 'is_manager': False, 'direct_reports': []}]}]"
