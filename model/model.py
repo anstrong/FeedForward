@@ -14,7 +14,7 @@ def load_data(vec_file, label_file):
     print(X.shape)
     return train_test_split(X, y, test_size=0.2, random_state=42)
 
-def make_model(model_class, X_train, y_train, seed=True, filename="model.pkl"):
+def train_model(model_class, X_train, y_train, seed=True, filename="model.pkl"):
     if seed:
         model = model_class(random_state=42)
     else:
@@ -24,16 +24,19 @@ def make_model(model_class, X_train, y_train, seed=True, filename="model.pkl"):
     pickle.dump(model, open(filename, "wb"))
     return model
 
-def evaluate_model(model, X_test, y_test):
+def evaluate_model(model, X_test, y_test, averaging=None, figname="accuracy.png"):
     y_pred = model.predict(X_test)
-
     ConfusionMatrixDisplay.from_predictions(y_test, y_pred)
-    print_metric = lambda name, fn : print(f'{name}: {fn(y_test, y_pred, average="micro")}')
+    plt.savefig(figname)
+
+    print_metric = lambda name, fn : print(f'{name}: {round(fn(y_test, y_pred, average=averaging), 4)}')
     print_metric('Precision', precision_score)
     print_metric('Recall', recall_score)
     print_metric('F1', f1_score)
-    plt.show()
 
-X_train, X_test, y_train, y_test = load_data('../data/train_vectors.csv', '../data/train_labels.csv')
-mnb = make_model(MultinomialNB, X_train, y_train, seed=False)
-evaluate_model(mnb, X_test, y_test)
+def build_model():
+    X_train, X_test, y_train, y_test = load_data('train_vectors.csv', 'train_labels.csv')
+    mnb = train_model(MultinomialNB, X_train, y_train, seed=False, filename="mnb_classifier.pkl")
+    evaluate_model(mnb, X_test, y_test, "weighted")
+
+build_model()

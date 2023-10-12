@@ -24,9 +24,9 @@ def examine_df(df):
 #examine_df(test_df)
 
 #train_docs = train_df['feedback']
-train_labels = train_df['nine_box_category']
+#train_labels = train_df['nine_box_category']
 #test_docs = test_df['Report']
-train_labels.to_csv('train_labels.csv', index=False)
+#train_labels.to_csv('train_labels.csv', index=False)
 
 def tokenize(s):
     #print(s)
@@ -71,4 +71,4 @@ def preprocess_csv(in_file, col, out_file, verbose=True):
     docs = df[col]
     vectorize_and_save(docs, out_file)
 
-preprocess_csv('employee_review_dataset_kaggle_five_categories.csv', 'feedback', 'train_vectors.csv')
+#preprocess_csv('employee_review_dataset_kaggle_five_categories.csv', 'feedback', 'train_vectors.csv')
