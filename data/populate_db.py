@@ -30,7 +30,7 @@ def generate_entry_data(fake):
         recipient = random.choice(users)["username"]
         if recipient != sender: # sender and recipient should be different users
             break
-    valence = random.randint(1, 5) # adjust range as needed 
+    valence = random.randint(1, 5) # adjust range as needed
 
     return {
         "body": body,
@@ -58,7 +58,7 @@ def save_users_to_csv(users, csv_filename):
         csv_writer.writeheader()
         for user in users:
             csv_writer.writerow(user)
-     
+
 def save_entries_to_csv(entries, csv_filename):
     with open(csv_filename, mode="w", newline="") as csv_file:
         fieldnames = list(entries[0].keys())
@@ -66,12 +66,12 @@ def save_entries_to_csv(entries, csv_filename):
 
         csv_writer.writeheader()
         for entry in entries:
-            csv_writer.writerow(entry) 
+            csv_writer.writerow(entry)
 
 
 if __name__ == "__main__": # checks if script is main entry point
-    num_of_users = 5
-    num_of_entries = 5
+    num_of_users = 2000
+    num_of_entries = 2000
 
     users = [] #list of users
     entries = [] #list of entries
@@ -82,10 +82,20 @@ if __name__ == "__main__": # checks if script is main entry point
         user_data = generate_user_data(fake)
         users.append(user_data)
 
+    #get Kaggle file of employee feedback
+    with open('EmployeeComplaints.csv') as csvfile:
+        reader = csv.reader(csvfile, delimiter=',', quotechar='`')
+        header = next(reader)
+        kaggle_entries = [row for row in reader]
+
     #generate entry data
-    for _ in range(num_of_entries):
+    for i in range(num_of_entries):
         entry_data = generate_entry_data(fake)
-        entries.append(entry_data) 
+        try:
+            entry_data["body"] = kaggle_entries[i][1].strip('"""')
+            entries.append(entry_data)
+        except IndexError:
+            break
 
     #generate direct reports for users
     generate_direct_reports(users)
@@ -93,7 +103,7 @@ if __name__ == "__main__": # checks if script is main entry point
     #save to CSV files
     save_users_to_csv(users, "users_data.csv")
     save_entries_to_csv(entries, "entries_data.csv")
-        
+
 
 
 # Inserting dummy data in MongoDB Atlas
@@ -103,7 +113,7 @@ if __name__ == "__main__": # checks if script is main entry point
 #    client = MongoClient("mongodb+srv://admin:admin@feedforwarddb.d3pydak.mongodb.net/?retryWrites=true&w=majority")
 #    db = client # database name
 #    clientcollection1 = db[entries] # collection names
-#    clientcollection2 = db[users] 
+#    clientcollection2 = db[users]
 
 #    for _ in range(num_of_records): # _ is not going to be used in within the loop
 #        data = generate_dummy_data(fake)

@@ -1,9 +1,11 @@
+from operator import indexOf
 import numpy as np
 import pandas as pd
 import csv
 from spacy.tokenizer import Tokenizer
 from spacy.lang.en import English
 from sklearn.preprocessing import MultiLabelBinarizer
+import csv
 
 nlp = English()
 tokenizer = nlp.tokenizer
