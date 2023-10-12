@@ -9,6 +9,7 @@ app = Flask(__name__)
 def get_prediction(model_name):
     obs = request.get_json()
     pred = predict(f'{model_name}.pkl', obs)
+    print(f"call complete: {obs} ({pred})")
     return { "valence": pred }
 
 if __name__ == 'main':

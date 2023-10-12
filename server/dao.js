@@ -60,11 +60,26 @@ module.exports.call = async function call(operation, req, callback) {
     case "post_entry":
       try {
         const collection = db.collection("entries");
+        const valence = await fetch('http://127.0.0.1:5000/mnb_classifier/predict', {
+          method: "POST",
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(req.body.body)
+        }).then(response => {
+          //console.log(response);
+          return response.json();
+        }).then(payload => {
+          //console.log(payload);
+          return payload['valence'];
+        })
+
         const document = {
           body: req.body.body,
           sender: req.body.sender,
           recipient: req.body.recipient,
-          valence: req.body.valence
+          valence: valence
         };
         const body = await collection.insertOne(document);
         // console.log(`Entry ID #: ${body.insertedId}`);
