@@ -11,6 +11,6 @@ def predict(model_file, obs):
     #print(x)
     pred = model.predict(x)[0]
     #print(pred)
-    return pred
+    return int(pred)
 
-predict('mnb_classifier.pkl', "I love how you always support my ideas.")
+#predict('mnb_classifier.pkl', "I love how you always support my ideas.")
