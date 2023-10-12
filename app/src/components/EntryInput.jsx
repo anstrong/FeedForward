@@ -29,12 +29,13 @@ export default function EntryInput({ submit }) {
         <>
         <h2>Submit Feedback</h2>
         <form onSubmit={handleSubmit} className = "textalignleft">
-            Feedback: <input  value={entry} onChange={handleEntryChange} name="entryBody" />
-            <br />
-            Recipient: <input value={recipient} onChange={handleRecipientChange} name="recipient" />
+            <textarea value={entry} onChange={handleEntryChange} name="entryBody" />
+                <br />
+                <footer>
+            <input className="header-left" placeholder="Recipient" value={recipient} onChange={handleRecipientChange} name="recipient" />
             <br  />
-                <button disabled={entry === "" || recipient === ""} className="btn-primary" type="submit">Submit</button>
-
+                    <button disabled={entry === "" || recipient === ""} className="btn-primary header-right" type="submit">Submit</button>
+                </footer>
             </form>
     </>);
 };

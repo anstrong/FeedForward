@@ -59,11 +59,17 @@ export default function Home({ user }) {
     return (<>
         <header>
             <h1 className="header-left">FeedForward</h1>
+            <h1 className="header-left arrow dark-char">{">"}</h1>
+            <h1 className="header-left arrow med-char">{">"}</h1>
+            <h1 className="header-left arrow light-char">{">"}</h1>
+            {/*<h1 className="header-left arrow white-char">{">"}</h1>*/}
             <h2 className="header-right">Hi, {user}!</h2>
         </header>
-        <section><EntryInput submit={handleSubmit}/></section>
-        <section><EntryList entries={entries}/></section>
-        {isManager? <section><DirectReportList reports={reports} /></section> : <></>}
+        <span><section>
+            <EntryInput submit={handleSubmit} />
+        </section></span>
+        <span><section><EntryList entries={entries}/></section></span>
+        {isManager? <span><section><DirectReportList reports={reports} /></section></span> : <></>}
     </>);
 };
 
