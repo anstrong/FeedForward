@@ -34,7 +34,7 @@ export default function Home({ user }) {
         console.log('rerendering');
         function sendPost(body) {
             console.log(body);
-            fetch('http://localhost:8080/send/', {
+            fetch('http://localhost:8000/send/', {
                 method: "POST",
                 headers: {
                     'Accept': 'application/json',
@@ -48,7 +48,7 @@ export default function Home({ user }) {
             }).catch(e => console.log(e))
         }
         function sendQuery(path, callback = (result) => (console.log(result))){
-            fetch(`http://localhost:8080/${path}`)
+            fetch(`http://localhost:8000/${path}`)
                 .then(response => {
                     console.log(response);
                     return response.json();
@@ -75,9 +75,22 @@ export default function Home({ user }) {
 
     return (<>
         <h1>Home</h1>
-        <h2>Hi, user {user}!</h2>
+        <h2>Hi, {user}!</h2>
         <EntryInput text={toSubmit} update={() => {}} submit={handleSubmit}/>
         <EntryList entries={entries}/>
         <DirectReportList  reports={reports}/>
     </>);
 };
+
+
+
+/*
+return (<>
+        <h1>Home</h1>
+        <h2>Hi, {user}!</h2>
+        <EntryInput text={toSubmit} update={() => {}} submit={handleSubmit}/>
+        <EntryList entries={entries}/>
+        <DirectReportList  reports={reports}/>
+    </>);
+    
+*/

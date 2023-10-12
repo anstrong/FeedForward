@@ -42,6 +42,6 @@ app.post("/send", (req, res) => {
 });
 
 
-const port = 8080;
+const port = 8000;
 console.log("server starting on port " + port);
 app.listen(port);
