@@ -39,7 +39,7 @@ def tokenize_all(strs, to_remove=['\t', '\n', '\r', "", " "]):
         try:
             doc = tokenize(s.strip())
             tokens = [w for w in doc if w.isalpha()]
-            print(tokens)
+            #print(tokens)
             tokenized.append(tokens)
         except:
             pass
@@ -71,4 +71,4 @@ def preprocess_csv(in_file, col, out_file, verbose=True):
     docs = df[col]
     vectorize_and_save(docs, out_file)
 
-preprocess_csv('employee_review_dataset_kaggle_five_categories.csv', 'feedback', 'train_vectors_3.csv')
+preprocess_csv('employee_review_dataset_kaggle_five_categories.csv', 'feedback', 'train_vectors.csv')
