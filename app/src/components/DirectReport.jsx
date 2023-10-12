@@ -1,3 +1,5 @@
 export default function DirectReport(params) {
-    return <h3>{params.name}</h3>;
+    return <div className="person">
+        <h3>{params.name}</h3>
+    </div>
 };

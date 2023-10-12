@@ -1,26 +1,40 @@
 import { useEffect, useState } from "react";
 
-export default function EntryInput({ text, update, submit }) {
+export default function EntryInput({ submit }) {
     const [entry, setEntry] = useState("");
+    const [recipient, setRecipient] = useState("");
 
     useEffect(() => {
         setEntry("");
+        setRecipient("");
     }, []);
 
-    const handleChange = (event) => {
+    const handleEntryChange = (event) => {
         event.preventDefault();
         setEntry(event.target.value);
+    }
+
+    const handleRecipientChange = (event) => {
+        event.preventDefault();
+        setRecipient(event.target.value);
     }
 
     const handleSubmit = (event) => {
         submit(event);
         setEntry("");
+        setRecipient("");
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input  value={entry} onChange={handleChange} name="entryBody" />
+        <>
+        <h2>Submit Feedback</h2>
+        <form onSubmit={handleSubmit} className = "textalignleft">
+            Feedback: <input  value={entry} onChange={handleEntryChange} name="entryBody" />
             <br />
-            <input type="submit" value="Submit" />
-    </form>);
+            Recipient: <input value={recipient} onChange={handleRecipientChange} name="recipient" />
+            <br  />
+                <button disabled={entry === "" || recipient === ""} className="btn-primary" type="submit">Submit</button>
+
+            </form>
+    </>);
 };

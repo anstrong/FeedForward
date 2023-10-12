@@ -1,8 +1,135 @@
+:root {
+  --main-bg-color: #eaeaea;
+  --element-bg-color: white;
+  --main-text-color: #050404;
+  --accent-dark: #4a1942;
+  --accent-med: #893168;
+  --accent-light: #C1A5A9;
+}
+
 body {
   margin: 0;
+  padding: 50px;
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: var(--main-bg-color);
+  color: var(--main-text-color);
+}
+
+h1 {
+  color: var(--accent-dark);
+  text-align: center;
+}
+
+h2 {
+  color: var(--accent-med);
+  text-align: center;
+}
+
+h3 {
+  color: var(--accent-light);
+}
+
+.header-left,
+.header-right {
+    display: inline;
+    vertical-align: top;
+    margin-right: 2%;
+    height: 100%;
+}
+
+header {
+  max-width: 800px;
+  margin: auto;
+  & .header-right {
+    float: right;
+    padding-bottom: 0px;
+  }
+  & h1 {
+    font-size: 40pt;
+  }
+}
+
+section {
+  background: var(--element-bg-color);
+  box-shadow: 0 3px 6px -2px var(--accent-light);
+  margin: auto;
+  margin-top: 3%;
+  border: 1px solid var(--element-bg-color);
+  border-radius: 15px;
+  max-width: 800px;
+  & h2 {
+    text-align: left;
+    margin-left: 25px;
+  }
+
+  & header {
+    padding-top: 15px;
+    padding-right: 10px;
+    & h3 {
+      margin: 0;
+    }
+  }
+}
+
+.sender,
+.entry div {
+    display: inline-flex;
+    height: 100%;
+    padding-left: 3%;
+    padding-right: 3%;
+}
+
+.entry {
+  margin-bottom: 25px;
+  margin-right:30px;
+  background: var(--accent-light);
+  border-radius: 10px 5px 5px 10px;
+  height: 40px;
+  & div {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 80%;
+    & h3 {
+      color: var(--main-bg-color);
+    }
+    height: 100%;
+  }
+  & .sender {
+    background-color: var(--accent-med);
+    border-radius: 10px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+  & p {
+    color: var(--main-text-color);
+    height: 100%;
+  }
+}
+
+.person {
+
+}
+
+form {
+  text-align: center;
+  & button {
+    transition-duration: 0.4s;
+    border: 0px solid var(--accent-light);
+    background-color: var(--accent-light);
+    margin-bottom: 10px;
+    border-radius: 5px;
+    padding: 5px;
+    :hover {
+      background-color: var(--accent-med); /* Green */
+      color: white;
+    }
+    & .disabled {
+      background-color: var(--accent-light);
+    }
+  }
 }
 
 code {

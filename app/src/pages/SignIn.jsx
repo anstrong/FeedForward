@@ -39,12 +39,14 @@ function SignIn({ onSuccessfulAuth }) {
     }
 
     return (
-        <div>
-            <h1 className="textalignleft">Sign In</h1>
+        <section>
+            <h1>Sign In</h1>
             <p className="textalignleft">Sign into your FeedForward Account</p>
             <form className="textalignleft" onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <input 
+                    Username
+                    <br  />
+                    <input
                     type="text"
                     placeholder="Username"
                     value={username}
@@ -52,6 +54,8 @@ function SignIn({ onSuccessfulAuth }) {
                     />
                 </div>
                 <div className="form-group">
+                    Password
+                    <br  />
                     <input
                     type="password"
                     placeholder="Password"
@@ -61,7 +65,7 @@ function SignIn({ onSuccessfulAuth }) {
                 </div>
                 <button className="btn-primary" type="submit">Submit</button>
             </form>
-        </div>
+        </section>
     );
 }
 

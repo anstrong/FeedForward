@@ -2,9 +2,12 @@ import Entry from "./Entry";
 
 export default function EntryList({ entries }) {
     return (<div>
-        <h2>My Feedback</h2>
+        <header>
+            <h2 className="header-left">My Feedback</h2>
+            <h3 className="header-right">{entries.length} new messages</h3>
+        </header>
         <ul>
-            {entries.map(entry => <Entry {...{ ...entry, key: JSON.stringify(entry.body) }} />)}
+            {entries.map(entry => <Entry className="entry" {...{ ...entry, key: JSON.stringify(entry.body) }} />)}
     </ul></div>
     );
 };
