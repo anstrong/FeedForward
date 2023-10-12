@@ -1,8 +1,9 @@
 from faker import Faker
-from pymongo import MongoClient # pip install pymongo first
+from pymongo import MongoClient
 import random
 import string
-import csv # added
+import csv
+import pandas as pd 
 
 
 # Using Faker to generate dummy user and entries data
@@ -104,26 +105,23 @@ if __name__ == "__main__": # checks if script is main entry point
     save_users_to_csv(users, "users_data.csv")
     save_entries_to_csv(entries, "entries_data.csv")
 
+    #connect to MongoDB Atlas with database names
+    client = MongoClient("mongodb+srv://admin:admin@feedforwarddb.d3pydak.mongodb.net/?retryWrites=true&w=majority")
+    db = client["data"]
+    # users_db = client["users"]
+    # entries_db = client["entries"]
 
+    #insert users data into the "users" database
+    users_collection = db["users"]
+    users_data = pd.read_csv("users_data.csv")
+    users_records = users_data.to_dict("records")
+    users_collection.insert_many(users_records)
 
-# Inserting dummy data in MongoDB Atlas
-#def insert_data(num_of_records):
-#   fake = Faker()
+    #insert the entries data into the "entries" database
+    entries_collection = db["entries"]
+    entries_data = pd.read_csv("entries_data.csv")
+    entries_records = entries_data.to_dict("records")
+    entries_collection.insert_many(entries_records)
 
-#    client = MongoClient("mongodb+srv://admin:admin@feedforwarddb.d3pydak.mongodb.net/?retryWrites=true&w=majority")
-#    db = client # database name
-#    clientcollection1 = db[entries] # collection names
-#    clientcollection2 = db[users]
-
-#    for _ in range(num_of_records): # _ is not going to be used in within the loop
-#        data = generate_dummy_data(fake)
-#        collection1.insert_one(data)
-#        collection2.insert_one(data)
-
-#if __name__ == "__main__": # checks if script is main entry point
-#    num_of_records = 1000
-#    insert_dummy_data(num_of_records)
-
-
-
-# connect entries and users collection, so user data in entries matches up with users
+    #confirmation
+    print("Data has been uploaded into MongoDB Atlas")
