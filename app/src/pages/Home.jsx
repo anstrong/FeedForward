@@ -4,7 +4,7 @@ import DirectReportList from "../components/DirectReportList";
 import EntryList from "../components/EntryList";
 import EntryInput from "../components/EntryInput";
 
-export default function Home({ user }) {
+export default function Home({ onLogout, user }) {
     const [entries, setEntries] = useState([]);
     const [reports, setReports] = useState([]);
     const [isManager, setIsManager] = useState(false);
@@ -110,7 +110,7 @@ export default function Home({ user }) {
             <h1 className="header-left arrow med-char">{">"}</h1>
             <h1 className="header-left arrow light-char">{">"}</h1>
             {/*<h1 className="header-left arrow white-char">{">"}</h1>*/}
-            <h2 className="header-right">Hi, {user}!</h2>
+            <h2 onClick={() => onLogout(user)} className="header-right">Hi, {user}!</h2>
         </header>
         <Statistics stat_list={stats}  />
         <span><section><EntryList onClick={handleClick}entries={entries}/></section></span>

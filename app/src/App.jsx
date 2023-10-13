@@ -5,7 +5,7 @@ import SignIn from "./pages/SignIn";
 import Home from "./pages/Home";
 
 export default function App() {
-  const [cookies, setCookie] = useCookies(["uid"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["uid"]);
   const navigate = useNavigate();
 
   function handleLogin(uid) {
@@ -13,12 +13,17 @@ export default function App() {
     navigate("/home");
   }
 
+  function handleLogout(uid) {
+    removeCookie("uid", uid, { path: "/" });
+    navigate("/login");
+  }
+
   return (
     <CookiesProvider>
         <Routes>
-          <Route path="/" element={cookies.uid? <Home user={cookies.uid}  />:<SignIn onSuccessfulAuth={handleLogin}/>} />
+          <Route path="/" element={cookies.uid? <Home onLogout={handleLogout} user={cookies.uid}  />:<SignIn onSuccessfulAuth={handleLogin}/>} />
           <Route path="/login" element={<SignIn onSuccessfulAuth={handleLogin}/>} />
-          <Route path="/home" element={cookies.uid? <Home user={cookies.uid}  />:<SignIn onSuccessfulAuth={handleLogin}/>} />
+          <Route path="/home" element={cookies.uid? <Home onLogout={handleLogout} user={cookies.uid}  />:<SignIn onSuccessfulAuth={handleLogin}/>} />
         </Routes>
       </CookiesProvider>
   );
