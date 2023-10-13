@@ -76,9 +76,10 @@ export default function Home({ user }) {
         setToSubmit([event.target.entryBody.value, event.target.recipient.value]);
     }
 
-    const handleClick = (event) => {
-        event.preventDefault();
-        setRecipient(event.target.innerText);
+    const handleClick = (value) => {
+        //event.preventDefault();
+        console.log(value);
+        setRecipient(value);
         console.log(recipient)
     }
 
@@ -112,7 +113,7 @@ export default function Home({ user }) {
             <h2 className="header-right">Hi, {user}!</h2>
         </header>
         <Statistics stat_list={stats}  />
-        <span><section><EntryList entries={entries}/></section></span>
+        <span><section><EntryList onClick={handleClick}entries={entries}/></section></span>
         {isManager ? <span><section><DirectReportList onClick={handleClick} reports={reports} /></section></span> : <></>}
         <span><section>
             <EntryInput clickedRecipient={recipient} submit={handleSubmit} />

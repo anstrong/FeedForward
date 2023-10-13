@@ -1,7 +1,7 @@
 export default function Entry(params) {
     const truncate = 1000;
 
-    return <div className="entry">
+    return <div className="entry" onClick={(e) => params.onClick(params.sender)}>
         <div class='sender'>
             <h3>{params.sender}</h3>
         </div>
