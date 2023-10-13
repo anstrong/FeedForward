@@ -9,6 +9,9 @@ export default function Home({ user }) {
     const [reports, setReports] = useState([]);
     const [isManager, setIsManager] = useState(false);
     const [toSubmit, setToSubmit] = useState("");
+    const [recipient, setRecipient] = useState("");
+
+    const [stats, setStats] = useState([]);
 
     useEffect(() => {
         console.log('rerendering');
@@ -25,9 +28,10 @@ export default function Home({ user }) {
                 console.log(response);
             }).then(response => {
                 setToSubmit("");
+                setRecipient("");
             }).catch(e => console.log(e))
         }
-        function sendQuery(path, callback = (result) => (console.log(result))){
+        function sendQuery(path, callback = (result) => (console.log(result))) {
             fetch(`http://localhost:8000/${path}`)
                 .then(response => {
                     console.log(response);
@@ -43,17 +47,59 @@ export default function Home({ user }) {
                 setToSubmit("");
             }
         } else {
-            sendQuery(`users/${user}/entries`, (result) => setEntries(result));
+            sendQuery(`users/${user}/entries`, (result) => {
+                setEntries(result);
+
+                const valences = result.map(v => v.valence);
+                console.log(valences);
+                const getSum = (list, fn) => (list.reduce((acc, val) => acc + fn(val), 0));
+                const getCount = (list, fn) => (list.filter(val => fn(val)).length);
+                const getAverage = (vals) => { return getSum(vals, (val) => val ) / vals.length};
+                const getPercent = (vals, condition) => { return 100*getCount(vals, condition)/vals.length + '%' };
+
+                const average_valence = getAverage(valences);
+                const positive_percent = getPercent(valences, (val) => val > 3);
+                setStats([
+                    ["average feedback sentiment", average_valence],
+                    ["positive feedback", positive_percent]
+                ]);
+            });
             sendQuery(`users/${user}`, (result => {
-                setReports(result['direct_reports']);
+                setReports([...result['direct_reports']]);
                 setIsManager(result['is_manager']);
             }));
         }
-    }, [ user, toSubmit ]);
+    }, [user, toSubmit, recipient ]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
         setToSubmit([event.target.entryBody.value, event.target.recipient.value]);
+    }
+
+    const handleClick = (event) => {
+        event.preventDefault();
+        setRecipient(event.target.innerText);
+        console.log(recipient)
+    }
+
+    const Statistic = ({ stat, tag }) => {
+        return (
+            <div className="stat">
+                <h1>{stat}</h1>
+                <h3>{tag}</h3>
+            </div>
+        );
+    }
+
+    const Statistics = ({ stat_list }) => {
+        console.log(stat_list);
+        return (
+            <center>
+                <div className="stats">
+                    {stat_list.map((item) => item[1]? <Statistic tag={item[0]} stat={item[1]}/>: <></>)}
+                </div>
+            </center>
+        )
     }
 
     return (<>
@@ -65,22 +111,11 @@ export default function Home({ user }) {
             {/*<h1 className="header-left arrow white-char">{">"}</h1>*/}
             <h2 className="header-right">Hi, {user}!</h2>
         </header>
-        <span><section>
-            <EntryInput submit={handleSubmit} />
-        </section></span>
+        <Statistics stat_list={stats}  />
         <span><section><EntryList entries={entries}/></section></span>
-        {isManager? <span><section><DirectReportList reports={reports} /></section></span> : <></>}
+        {isManager ? <span><section><DirectReportList onClick={handleClick} reports={reports} /></section></span> : <></>}
+        <span><section>
+            <EntryInput clickedRecipient={recipient} submit={handleSubmit} />
+        </section></span>
     </>);
 };
-
-
-/*
-return (<>
-        <h1>Home</h1>
-        <h2>Hi, {user}!</h2>
-        <EntryInput text={toSubmit} update={() => {}} submit={handleSubmit}/>
-        <EntryList entries={entries}/>
-        <DirectReportList  reports={reports}/>
-    </>);
-
-*/

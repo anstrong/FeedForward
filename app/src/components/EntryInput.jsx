@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
-export default function EntryInput({ submit }) {
+export default function EntryInput({ clickedRecipient, submit }) {
     const [entry, setEntry] = useState("");
     const [recipient, setRecipient] = useState("");
 
     useEffect(() => {
         setEntry("");
-        setRecipient("");
-    }, []);
+        setRecipient(clickedRecipient);
+    }, [clickedRecipient]);
 
     const handleEntryChange = (event) => {
         event.preventDefault();
@@ -32,9 +32,12 @@ export default function EntryInput({ submit }) {
             <textarea value={entry} onChange={handleEntryChange} name="entryBody" />
                 <br />
                 <footer>
-            <input className="header-left" placeholder="Recipient" value={recipient} onChange={handleRecipientChange} name="recipient" />
-            <br  />
-                    <button disabled={entry === "" || recipient === ""} className="btn-primary header-right" type="submit">Submit</button>
+            <input className="header-left text" placeholder="Recipient" value={recipient} onChange={handleRecipientChange} name="recipient" />
+                    <button disabled={entry === "" || recipient === ""} toolticlassName="btn-primary header-right" type="submit" title="Submit">
+                        <b className="dark-char">{">"}</b>
+                        <b className="med-char">{">"}</b>
+                        <b className="light-char">{">"}</b>
+                    </button>
                 </footer>
             </form>
     </>);

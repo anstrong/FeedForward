@@ -49,23 +49,49 @@ header, footer {
     padding-bottom: 0px;
   }
   & h1 {
-    font-size: 40pt;
+    font-size: 50pt;
   }
-  & .arrow {
-    margin-right: -10px;
+}
+
+center {
+  justify-content: center;
+  margin: auto;
+}
+
+.stats {
+  display: inline-flex;
+  width: 100%;
+  margin: auto;
+  justify-content: center;
+  & h1 {
+    font-size: 40px;
   }
-  & .white-char {
-    color: var(--element-bg-color)
+  & .stat {
+    width: 25%;
+    text-wrap: wrap;
+    text-align: center;
+    margin: 20px;
   }
-  & .light-char {
-    color: var(--accent-light)
-  }
-  & .med-char {
-    color: var(--accent-med)
-  }
-  & .dark-char {
-    color: var(--accent-dark)
-  }
+}
+
+.arrow {
+  margin-right: -10px;
+}
+
+.white-char {
+  color: var(--element-bg-color)
+}
+
+.light-char {
+  color: var(--accent-light)
+}
+
+.med-char {
+  color: var(--accent-med)
+}
+
+.dark-char {
+  color: var(--accent-dark)
 }
 
 section,
@@ -95,6 +121,7 @@ section{
   max-width: 800px;
   box-sizing: border-box;
   width: 102%;
+
   & h2 {
     text-align: left;
     margin-left: 25px;
@@ -107,7 +134,21 @@ section{
       margin: 0;
     }
   }
-}
+
+  & .flex {
+    display: inline-flex;
+    width: 90%;
+    flex-wrap: wrap;
+    height: 100%;
+    :hover {
+      background-color: var(--accent-med);
+      * {
+          background-color: transparent;
+        }
+      }
+    }
+
+  }
 
 .sender,
 .entry div {
@@ -166,41 +207,68 @@ section{
   }
 }
 
-.person {
-  & h3 {
-    color: var(--accent-dark);
+ul {
+  :hover {
+    box-shadow: 1px 1px 4px 1px var(--main-text-color);
+    * {
+      box-shadow: 0px 0px 0px 0px var(--main-text-color);
+    }
   }
 }
+
+div .person {
+  padding-left: 3%;
+  padding-right: 3%;
+  margin-right: 2%;
+  margin-bottom: 2%;
+  background-color: var(--accent-dark);
+  border-radius: 8px;
+  & h3 {
+    color: var(--main-bg-color);
+    height: 100%;
+  }
+}
+
+button:not(:disabled):hover {
+    box-shadow: 1px 1px 4px 1px var(--main-text-color);
+    background-color: var(--main-bg-color);
+    * {
+      box-shadow: 0px 0px 0px 0px var(--main-text-color);
+    }
+  }
 
 form {
   text-align: center;
+  margin-bottom: 10px;
   & button {
     transition-duration: 0.4s;
     border: 0px solid var(--accent-light);
-    background-color: var(--accent-light);
-    margin-bottom: 10px;
-    border-radius: 5px;
+    background-color: var(--element-bg-color);
+    border-radius: 10px;
     padding: 5px;
-    :hover {
-      background-color: var(--accent-med); /* Green */
-      color: white;
-    }
-    & .disabled {
-      background-color: var(--accent-light);
+    width: 15%;
+    height: 100%;
+    font-size: 20px;
+    b {
+      margin-bottom: 2px;
+      margin-top: 0;
     }
   }
-  & textarea {
-    min-width: 95%;
+  & textarea,
+  & .text {
     border: .1px solid var(--accent-light);
     border-radius: 2px;
+  }
+  & textarea {
     min-height: 100px;
+    min-width: 95%;
     margin-top: -8px;
     margin-bottom: 10px;
   }
-}
-
-code {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  & .text {
+    min-width: 80%;
+    height: 25px;
+  }
 }
 
 .form-group {

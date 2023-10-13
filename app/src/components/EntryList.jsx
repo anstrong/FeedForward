@@ -7,7 +7,7 @@ export default function EntryList({ entries }) {
             <h3 className="header-right">{entries.length} new messages</h3>
         </header>
         <ul>
-            {entries.map(entry => <Entry className="entry" {...{ ...entry, key: JSON.stringify(entry.body) }} />)}
+            {entries.map(entry => entry.show? <Entry className="entry" {...{ ...entry, key: JSON.stringify(entry.body) }} /> : <></>)}
     </ul></div>
     );
 };
