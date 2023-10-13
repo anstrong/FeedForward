@@ -33,7 +33,7 @@ export default function EntryInput({ clickedRecipient, submit }) {
                 <br />
                 <footer>
             <input className="header-left text" placeholder="Recipient" value={recipient} onChange={handleRecipientChange} name="recipient" />
-                    <button disabled={entry === "" || recipient === ""} toolticlassName="btn-primary header-right" type="submit" title="Submit">
+                    <button disabled={entry === "" || recipient === ""} className="btn-primary header-right" type="submit" title="Submit">
                         <b className="dark-char">{">"}</b>
                         <b className="med-char">{">"}</b>
                         <b className="light-char">{">"}</b>

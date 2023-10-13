@@ -13,6 +13,8 @@ export default function Home({ onLogout, user }) {
 
     const [stats, setStats] = useState([]);
 
+    const max_reports = 12;
+
     useEffect(() => {
         console.log('rerendering');
         function sendPost([body, recipient]) {
@@ -23,7 +25,7 @@ export default function Home({ onLogout, user }) {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ body: body, sender: user, recipient: recipient, valence: 0 })
+                body: JSON.stringify({ body: body, sender: user, recipient: recipient, valence: 0, show: true })
             }).then(response => {
                 console.log(response);
             }).then(response => {
@@ -34,10 +36,10 @@ export default function Home({ onLogout, user }) {
         function sendQuery(path, callback = (result) => (console.log(result))) {
             fetch(`http://localhost:8000/${path}`)
                 .then(response => {
-                    console.log(response);
+                    //console.log(response);
                     return response.json();
                 }).then(payload => {
-                    console.log(payload);
+                    //console.log(payload);
                     callback(payload);
                 }).catch(e => console.log(e));
         }
@@ -55,7 +57,10 @@ export default function Home({ onLogout, user }) {
                 const getSum = (list, fn) => (list.reduce((acc, val) => acc + fn(val), 0));
                 const getCount = (list, fn) => (list.filter(val => fn(val)).length);
                 const getAverage = (vals) => { return getSum(vals, (val) => val ) / vals.length};
-                const getPercent = (vals, condition) => { return 100*getCount(vals, condition)/vals.length + '%' };
+                const getPercent = (vals, condition) => {
+                    let pct = Math.round(100 * getCount(vals, condition) / vals.length);
+                    return  pct? pct+'%':""
+                };
 
                 const average_valence = getAverage(valences);
                 const positive_percent = getPercent(valences, (val) => val > 3);
@@ -65,7 +70,7 @@ export default function Home({ onLogout, user }) {
                 ]);
             });
             sendQuery(`users/${user}`, (result => {
-                setReports([...result['direct_reports']]);
+                setReports(eval(result['direct_reports']).slice(0, max_reports));
                 setIsManager(result['is_manager']);
             }));
         }
@@ -97,7 +102,7 @@ export default function Home({ onLogout, user }) {
         return (
             <center>
                 <div className="stats">
-                    {stat_list.map((item) => item[1]? <Statistic tag={item[0]} stat={item[1]}/>: <></>)}
+                    {stat_list.map((item) => item[1]? <Statistic key={item[0]} tag={item[0]} stat={item[1]}/>: <></>)}
                 </div>
             </center>
         )
@@ -113,7 +118,7 @@ export default function Home({ onLogout, user }) {
             <h2 onClick={() => onLogout(user)} className="header-right">Hi, {user}!</h2>
         </header>
         <Statistics stat_list={stats}  />
-        <span><section><EntryList onClick={handleClick}entries={entries}/></section></span>
+        <span><section><EntryList onClick={handleClick} entries={entries}/></section></span>
         {isManager ? <span><section><DirectReportList onClick={handleClick} reports={reports} /></section></span> : <></>}
         <span><section>
             <EntryInput clickedRecipient={recipient} submit={handleSubmit} />
