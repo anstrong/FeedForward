@@ -79,7 +79,8 @@ module.exports.call = async function call(operation, req, callback) {
           body: req.body.body,
           sender: req.body.sender,
           recipient: req.body.recipient,
-          valence: valence
+          valence: valence,
+          show: req.body.show
         };
         const body = await collection.insertOne(document);
         // console.log(`Entry ID #: ${body.insertedId}`);

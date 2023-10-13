@@ -56,7 +56,7 @@ export default function Home({ onLogout, user }) {
                 console.log(valences);
                 const getSum = (list, fn) => (list.reduce((acc, val) => acc + fn(val), 0));
                 const getCount = (list, fn) => (list.filter(val => fn(val)).length);
-                const getAverage = (vals) => { return getSum(vals, (val) => val ) / vals.length};
+                const getAverage = (vals) => { return Math.round(10*getSum(vals, (val) => val) / vals.length)/10};
                 const getPercent = (vals, condition) => {
                     let pct = Math.round(100 * getCount(vals, condition) / vals.length);
                     return  pct? pct+'%':""
