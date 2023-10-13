@@ -39,13 +39,19 @@ function SignIn({ onSuccessfulAuth }) {
     }
 
     return (
-        <section>
-            <h1>Sign In</h1>
-            <p className="textalignleft">Sign into your FeedForward Account</p>
-            <form className="textalignleft" onSubmit={handleSubmit}>
+        <>
+        <header className="login">
+            <h1 className="header-left">FeedForward</h1>
+            <h1 className="header-left arrow dark-char">{">"}</h1>
+            <h1 className="header-left arrow med-char">{">"}</h1>
+            <h1 className="header-left arrow light-char">{">"}</h1>
+        </header>
+        <span className='login'>
+        <section >
+            <h1>Welcome back!</h1>
+            <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     Username
-                    <br  />
                     <input
                     type="text"
                     placeholder="Username"
@@ -55,17 +61,23 @@ function SignIn({ onSuccessfulAuth }) {
                 </div>
                 <div className="form-group">
                     Password
-                    <br  />
                     <input
                     type="password"
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     />
-                </div>
-                <button className="btn-primary" type="submit">Submit</button>
+                        </div>
+                <button disabled={username === "" || password === ""} className="btn-primary header-right" type="submit" title="Submit">
+                    <p className="label"> Sign In </p>
+                    <b className="dark-char">{">"}</b>
+                    <b className="med-char">{">"}</b>
+                    <b className="light-char">{">"}</b>
+                </button>
             </form>
-        </section>
+            </section>
+            </span>
+    </>
     );
 }
 
